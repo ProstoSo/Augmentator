@@ -4,7 +4,7 @@ import pymorphy2
 import json
 import re
 
-class NERAug(BaseAug):
+class Aug_change_geox(BaseAug):
 
     def __init__(self):
         self._geoxs=json.load("augs/files/geox.json")
@@ -61,4 +61,4 @@ class NERAug(BaseAug):
                     n = text.index(word)
                     text[n] = newword1
         newtext = " ".join(text)
-        return f'{newtext}_augmented'
+        return newtext

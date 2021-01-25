@@ -2,7 +2,7 @@ from augs.base_aug import BaseAug
 import random
 import pymorphy2
 
-class NERAug(BaseAug):
+class Aug_change_adj(BaseAug):
 
     def __init__(self):
         self.morph = pymorphy2.MorphAnalyzer()
@@ -21,4 +21,4 @@ class NERAug(BaseAug):
                     text[text.index(ws) + 1] = word1.lower()
         text[0] = text[0].capitalize()
         newtext = " ".join(text)
-        return f'{newtext}_augmented'
+        return newtext

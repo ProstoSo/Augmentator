@@ -2,7 +2,7 @@ from augs.base_aug import BaseAug
 import random
 import pymorphy2
 
-class NERAug(BaseAug):
+class Aug_introduction_words(BaseAug):
 
     def __init__(self):
         self.morph = pymorphy2.MorphAnalyzer()
@@ -25,4 +25,4 @@ class NERAug(BaseAug):
         newtext = " ".join(txt)
         newtext = newtext.replace(" ,", ",")
         newtext = newtext.replace(",.", ".")
-        return f'{newtext}_augmented'
+        return newtext

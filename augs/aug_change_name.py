@@ -2,7 +2,7 @@ from augs.base_aug import BaseAug
 import random
 import pymorphy2
 
-class NERAug(BaseAug):
+class Aug_change_name(BaseAug):
 
     def __init__(self):
         self._names_lst = open("augs/files/names.txt","r").read().split(" ")
@@ -27,4 +27,4 @@ class NERAug(BaseAug):
                 n = text.index(word)
                 text[n] = newname3
         newtext = " ".join(text)
-        return f'{newtext}_augmented'
+        return newtext

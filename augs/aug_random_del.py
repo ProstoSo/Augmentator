@@ -1,7 +1,7 @@
 from augs.base_aug import BaseAug
 import random
 
-class NERAug(BaseAug):
+class Aug_random_del(BaseAug):
 
     def __init__(self):
         pass
@@ -12,4 +12,4 @@ class NERAug(BaseAug):
         text.remove(text[r])
         text[0] = text[0].capitalize()
         newtext = " ".join(text)
-        return f'{newtext}_augmented'
+        return newtext
