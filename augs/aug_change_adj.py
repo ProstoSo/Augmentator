@@ -1,5 +1,4 @@
 from augs.base_aug import BaseAug
-import random
 import pymorphy2
 
 class Aug_change_adj(BaseAug):
@@ -21,4 +20,4 @@ class Aug_change_adj(BaseAug):
                     text[text.index(ws) + 1] = word1.lower()
         text[0] = text[0].capitalize()
         newtext = " ".join(text)
-        return newtext
+        return (newtext)

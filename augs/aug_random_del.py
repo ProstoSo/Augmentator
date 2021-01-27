@@ -12,4 +12,4 @@ class Aug_random_del(BaseAug):
         text.remove(text[r])
         text[0] = text[0].capitalize()
         newtext = " ".join(text)
-        return newtext
+        return (newtext)
