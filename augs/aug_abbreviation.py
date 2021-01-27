@@ -6,7 +6,7 @@ class open_abbr(BaseAug):
 
     def __init__(self):
         self._geo_names = set()
-        self.abbs=json.load(open("/content/абб.json"))
+        self.abbs=json.load(open("augs/files/abbreviations.json"))
         self.morph=pymorphy2.MorphAnalyzer()
     def apply(self, text: str):
         newwords = ""
@@ -25,11 +25,12 @@ class open_abbr(BaseAug):
                 if newwords == "":
                     return ("Аббревиатура не найдена")
                 # проверяем корректность падежа
+
                 if text[text.index(word) - 1].lower() in ["в", "о"]:
                     case = 'loct'
                 if text[text.index(word) - 1].lower() in ["за", "над", "под"]:
                     case = 'ablt'
-                if text[text.index(word) - 1].lower() in ["от", "из", "до", "около"]:
+                if text[text.index(word) - 1].lower() in ["от", "из", "до", "около"] or self.morph.parse(text[text.index(word)- 1])[0].tag.POS=="NOUN" :
                     case = 'gent'
                 newwordss = newwords.split(" ")
                 newwlst = []
