@@ -11,4 +11,4 @@ class Aug_translation(BaseAug):
         translator = Translator()
         result0 = translator.translate(text, scr='ru', dest='en')
         result = translator.translate(result0.text, src='en', dest='ru')
-        return (result.text)
+        return result.text

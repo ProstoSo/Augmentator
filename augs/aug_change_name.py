@@ -27,4 +27,4 @@ class Aug_change_name(BaseAug):
                 n = text.index(word)
                 text[n] = newname3
         newtext = " ".join(text)
-        return (newtext)
+        return newtext

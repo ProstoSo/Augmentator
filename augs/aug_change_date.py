@@ -52,9 +52,9 @@ class Aug_change_date(BaseAug):
                 newmonth_0 = random.choice(self._months)
                 newmonth = self.morph.parse(newmonth_0)[0].inflect({case}).word
                 text = text.replace(elem, newmonth)
-        return(text)
+        return text
 
-class Aug_change_date(BaseAug):
+class Aug_change_time(BaseAug):
 
     def __init__(self):
         self._time=re.compile("(([0,1][0-9])|(2[0-3])):[0-5][0-9]")
@@ -75,4 +75,4 @@ class Aug_change_date(BaseAug):
                 minute="0"+str(minute)
             newtime=str(hour)+":"+str(minute)
             text=text.replace(elem,newtime)
-        return(text)
+        return text

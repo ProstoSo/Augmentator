@@ -2,7 +2,7 @@ from augs.base_aug import BaseAug
 import pymorphy2
 import json
 
-class open_abbr(BaseAug):
+class Aug_open_abbr(BaseAug):
 
     def __init__(self):
         self._geo_names = set()
@@ -23,7 +23,7 @@ class open_abbr(BaseAug):
                         # print (abbs["abb"][0][word])
                         newwords = self.abbs["abb"][0][word]
                 if newwords == "":
-                    return ("Аббревиатура не найдена")
+                    return "Аббревиатура не найдена"
                 # проверяем корректность падежа
 
                 if text[text.index(word) - 1].lower() in ["в", "о"]:
@@ -49,9 +49,9 @@ class open_abbr(BaseAug):
                 n = text.index(word)
                 text[n] = newword1
         newtext = " ".join(text)
-        return (newtext)
+        return newtext
 
-class close_abbr(BaseAug):
+class Aug_close_abbr(BaseAug):
     def __init__(self):
         self._geo_names = set()
         self.abbs=json.load(open("/content/абб.json"))
@@ -81,7 +81,7 @@ class close_abbr(BaseAug):
                 # запоминаем аббревиатуру
                 newword = el
         if newword == "":
-            return ("Аббревиатура не найдена")
+            return "Аббревиатура не найдена"
         l1 = abb0.split(" ")
         l2 = []
         # производим замену в исходном тексте
@@ -101,4 +101,4 @@ class close_abbr(BaseAug):
         r = " ".join(l2)
         # заменяем расшифровку на аббревиатуру
         newtext = text.replace(r, newword)
-        return (newtext)
+        return newtext

@@ -61,4 +61,4 @@ class Aug_change_geox(BaseAug):
                     n = text.index(word)
                     text[n] = newword1
         newtext = " ".join(text)
-        return (newtext)
+        return newtext

@@ -38,7 +38,7 @@ class Aug_change_number(BaseAug):
                 txt[txt.index(el)] = str(n)
                 txt[txt.index(word)] = new_form
         text = " ".join(txt)
-        return(text)
+        return text
 
 class Aug_change_number_2(BaseAug):
     # замена с выбором диапазона
@@ -73,5 +73,5 @@ class Aug_change_number_2(BaseAug):
                 txt[txt.index(el)] = str(n)
                 txt[txt.index(word)] = new_form
         text = " ".join(txt)
-        return(text)
+        return text
 

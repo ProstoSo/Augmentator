@@ -1,7 +1,7 @@
 from augs.base_aug import BaseAug
 import pymorphy2
 import random
-class Aug_random_change(BaseAug):
+class Aug_random_change_words(BaseAug):
 
     def __init__(self):
         self.morph = pymorphy2.MorphAnalyzer()
@@ -24,4 +24,20 @@ class Aug_random_change(BaseAug):
         text[r2] = word1
         text[0] = text[0].capitalize()
         newtext = " ".join(text)
-        return (newtext)
+        return newtext
+
+class Aug_change_letter(BaseAug):
+
+    def __init__(self):
+        pass
+
+    def apply(self, text: str):
+        letter = random.choice(text)
+        if text.index(letter)!=0:
+            letter2= text[text.index(letter) - 1]
+            newtext = text.replace(letter2+letter, letter + letter2)
+        else:
+            letter2 = text[text.index(letter) + 1]
+            newtext = text.replace(letter+letter2, letter2+letter)
+
+        return newtext

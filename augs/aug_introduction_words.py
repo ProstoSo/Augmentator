@@ -25,4 +25,4 @@ class Aug_introduction_words(BaseAug):
         newtext = " ".join(txt)
         newtext = newtext.replace(" ,", ",")
         newtext = newtext.replace(",.", ".")
-        return (newtext)
+        return newtext
