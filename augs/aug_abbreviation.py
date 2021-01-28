@@ -1,42 +1,60 @@
-from augs.base_aug import BaseAug
-import pymorphy2
 import json
 
-class Aug_open_abbr(BaseAug):
+import pymorphy2
+
+from augs.base_aug import BaseAug
+
+
+class AugOpenAbbr(BaseAug):
 
     def __init__(self):
-        self._geo_names = set()
-        self.abbs=json.load(open("augs/files/abbreviations.json"))
-        self.morph=pymorphy2.MorphAnalyzer()
-    def apply(self, text: str):
-        newwords = ""
+        with open("augs/files/abbreviations.json") as abbs:
+            self._abbs=json.load(abbs)
+        self._morph=pymorphy2.MorphAnalyzer()
+        
+        def check_case(self, word):
+            case="nomn"
+            f word in ["в", "о"]:
+                    case = 'loct'
+            elif word in ["за", "над", "под"]:
+                    case = 'ablt'
+            elif word in ["от", "из", "до", "около"] or self._morph.parse(word)[0].tag.POS=="NOUN" :
+                    case = 'gent
+            return(case)
+        
+    def apply(self, text: str):        
         text = text.split(" ")
         for word in text:
+            newwords = ""
+            #если есть знак препинания, то убираем его из слова с которым будем работать
+            oldword=word
+            for els in [",",".","!","?"]:
+              if els in word:
+                word=word.replace(els,"")
             # ищем аббревиатуру в тексте
-            if word.isupper() == True and len(word) > 1:
-                firstword = self.morph.parse(word)[0]
-                # запоминаем падеж аббревиатуры (хотя у аббревиатур нет падежей...)
-                case = firstword.tag.case
-                for el in self.abbs["abb"][0]:
+            if word.isupper() and len(word) > 1:
+                firstword = self._morph.parse(word)[0]
+                for el in self._abbs:
                     # ищем аббревиатуру в словаре
                     if el == word:
-                        # print (abbs["abb"][0][word])
-                        newwords = self.abbs["abb"][0][word]
-                if newwords == "":
-                    return "Аббревиатура не найдена"
+                        newwords = self._abbs[word]
+               if newwords == "":
+                    continue
                 # проверяем корректность падежа
-
-                if text[text.index(word) - 1].lower() in ["в", "о"]:
-                    case = 'loct'
-                if text[text.index(word) - 1].lower() in ["за", "над", "под"]:
-                    case = 'ablt'
-                if text[text.index(word) - 1].lower() in ["от", "из", "до", "около"] or self.morph.parse(text[text.index(word)- 1])[0].tag.POS=="NOUN" :
-                    case = 'gent'
+                prword= text[text.index(oldword) - 1].lower()
+                #если предыдущее слово это союз, то нужно посмотреть, что было перед союзом
+                if prword=="и":
+                    prword =text[text.index(oldword) - 2]
+                    #если перед союзом ещё одна аббревиатура (расшифрованная в ходе программы или нет), то 
+                    #выбираем падеж исходя из того, что стоит перед аббревиатурой
+                    if prword.isupper() or " " in prword2:
+                        prword=text[text.index(oldword) - 3].lower()                 
+                self.check_case(prword)
                 newwordss = newwords.split(" ")
                 newwlst = []
                 # склоняем слова
                 for w in newwordss:
-                    ww = self.morph.parse(w)[0]
+                    ww = self._morph.parse(w)[0]
                     if ww.tag.case == "nomn":
                         newword = ww.inflect({case}).word
                     else:
@@ -45,60 +63,68 @@ class Aug_open_abbr(BaseAug):
                         newwlst.append(newword.capitalize())
                     else:
                         newwlst.append(newword)
-                newword1 = " ".join(newwlst)
-                n = text.index(word)
-                text[n] = newword1
+                newword1=" ".join(newwlst)
+                n =text.index(oldword)
+                text[n] = text[n].replace(word,newword1)
         newtext = " ".join(text)
         return newtext
 
+    
 class Aug_close_abbr(BaseAug):
     def __init__(self):
-        self._geo_names = set()
-        self.abbs=json.load(open("/content/абб.json"))
-        self.morph=pymorphy2.MorphAnalyzer()
+        with open("augs/files/abbreviations.json") as abbs:
+            abbs0=json.load(abbs)
+            self._abbs=dict(zip(abbs0.values(), abbs0.keys()))
+        self._morph=pymorphy2.MorphAnalyzer()
 
     def apply(self, text: str):
-        newword = ""
         txt = text.split(" ")
-        # создаем предложение, в котором все слова в именительном падеже и с большой буквы, для того, чтобы позже найти расшифрованную аббревиатуру
+        # создаем предложение, в котором все слова в стандартной форме, для того, чтобы позже найти расшифрованную аббревиатуру
         workinglst = []
         for word in txt:
-            firstword = self.morph.parse(word)[0]
-            checkword = firstword.normal_form.capitalize()
+            newword = ""
+            for els in [",",".","!","?"]:
+                if els in kword:
+                word=word.replace(els,"")
+            firstword = self._morph.parse(word)[0]            
+            checkword = firstword.normal_form
             workinglst.append(checkword)
         worktext = " ".join(workinglst)
         # идем по файлу с аббревиатурами, ищем расшифровку в тексте и подходящую аббревиатуру
-        for el in self.abbs["abb"][0]:
-            abbr = self.abbs["abb"][0][el].split(" ")
+        for el in self._abbs:
+            abbr = el.split(" ")
             abslst = []
+            #создаем список где все слова аббревиатуры в стандартной форме
             for word in abbr:
-                firstword = self.morph.parse(word)[0]
-                checkword = firstword.normal_form.capitalize()
-                abslst.append(checkword)
+              firstword = morph.parse(word)[0]
+              checkword = firstword.normal_form
+              abslst.append(checkword)       
             workabbr = " ".join(abslst)
+            #ищем расшифровку в тексте
             if workabbr in worktext:
-                abb0 = self.abbs["abb"][0][el]
+                abb0 = el
                 # запоминаем аббревиатуру
-                newword = el
-        if newword == "":
-            return "Аббревиатура не найдена"
-        l1 = abb0.split(" ")
-        l2 = []
-        # производим замену в исходном тексте
-        for els in l1:
-            checking = self.morph.parse(els)[0]
-            for words in txt:
-                if checking.tag.case == "nomn":
-                    firstword = self.morph.parse(words)[0]
-                    checkword = firstword.normal_form
-                else:
-                    firstword = self.morph.parse(words)[0]
-                    checkword = firstword.word
-                # добавляем слова из расшифровки в отдельный список
-                if checkword == els.lower():
-                    l2.append(words)
-        # объединяем список, чтобы получить шаблон для замены
-        r = " ".join(l2)
-        # заменяем расшифровку на аббревиатуру
-        newtext = text.replace(r, newword)
-        return newtext
+                newword = self._abbs[el]
+                #создаем список слов аббревиатуры
+                l1 = abb0.split(" ")
+                l2 = []
+                # ищем в исходном тексте слова, которые являются расшифровкой аббревиатуры
+                for els in l1:
+                    #при расшифровке аббревиатур с предложением согласуются только те слова, которые стоят в именительном падеже,  
+                     #если же в расшифровке присутсвуют слова в косвенном падеже, то они не меняют падеж внутри предложения
+                    checking = self._morph.parse(els)[0]
+                    for words in txt:
+                        if checking.tag.case == "nomn":
+                            firstword = self._morph.parse(words)[0]
+                            checkword = firstword.normal_form
+                        else:
+                            firstword = self._morph.parse(words)[0]
+                            checkword = firstword.word
+                        # добавляем слова из расшифровки в отдельный список
+                        if checkword == els.lower():
+                            l2.append(words)
+            # объединяем список, чтобы получить шаблон для замены
+            r = " ".join(l2)
+            # заменяем расшифровку на аббревиатуру
+            text = text.replace(r, newword)
+        return text
