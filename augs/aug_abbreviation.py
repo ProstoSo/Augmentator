@@ -44,7 +44,7 @@ class AugOpenAbbr(BaseAug):
                         #выбираем падеж исходя из того, что стоит перед аббревиатурой
                         if prword.isupper() or " " in prword:
                             prword=text[text.index(oldword) - 3].lower()
-                    prword_case=self.check_case(prword)
+                    prword_case=self._check_case(prword)
                     newwordss = newwords.split(" ")
                     newwlst = []
                     # склоняем слова
