@@ -44,6 +44,8 @@ class AugChangeDate(BaseAug):
                     day = random.randint(1, 30)
                 elif m == 2:
                     day = random.randint(1, 28)
+                else:
+                    day=0
                 #для одинарных чисел приписываем 0
                 # 1.1.2020 -> 01.01.2020
                 if len(str(m)) == 1:
