@@ -2,7 +2,7 @@ from typing import Dict
 from random import random
 
 from augs.aug_ner import NERAug
-from augs.aug_abbreviation import Aug_open_abbr , Aug_close_abbr
+from augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
 from augs.aug_change_adj import Aug_change_adj
 from augs.aug_change_date import Aug_change_date, Aug_change_time
 from augs.aug_change_geox import Aug_change_geox
