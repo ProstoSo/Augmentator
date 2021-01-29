@@ -8,19 +8,19 @@ from augs.base_aug import BaseAug
 class AugOpenAbbr(BaseAug):
 
     def __init__(self):
-        with open("augs/files/abbreviations.json") as abbs:
+        with open("augs/files/abbreviations.json",'r') as abbs:
             self._abbs=json.load(abbs)
         self._morph=pymorphy2.MorphAnalyzer()
-        self._case = "nomn"
 
     def _check_case(self, word):
+        case="nonm"
         if word in ["в", "о"]:
-                self._case = 'loct'
+                case = 'loct'
         elif word in ["за", "над", "под"]:
-                self._case = 'ablt'
+                case = 'ablt'
         elif word in ["от", "из", "до", "около"] or self._morph.parse(word)[0].tag.POS=="NOUN" :
-                self._case = 'gent'
-        return(self._case)
+                case = 'gent'
+        return(case)
 
     def apply(self, text: str):
         text = text.split(" ")
@@ -67,7 +67,7 @@ class AugOpenAbbr(BaseAug):
 
 class AugCloseAbbr(BaseAug):
     def __init__(self):
-        with open("augs/files/abbreviations.json") as abbs:
+        with open("augs/files/abbreviations.json",'r') as abbs:
             abbs0=json.load(abbs)
             self._abbs=dict(zip(abbs0.values(), abbs0.keys()))
         self._morph=pymorphy2.MorphAnalyzer()

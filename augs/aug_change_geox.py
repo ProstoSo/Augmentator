@@ -1,14 +1,19 @@
-from augs.base_aug import BaseAug
-import random
-import pymorphy2
 import json
+import random
 import re
 
-class Aug_change_geox(BaseAug):
+import pymorphy2
+
+from augs.base_aug import BaseAug
+
+
+#аугментация, которая заменяет одни географические названия другими, сохраняя тип топонима
+class AugChangeGeox(BaseAug):
 
     def __init__(self):
-        self._geoxs=json.load("augs/files/geox.json")
-        self.morph=pymorphy2.MorphAnalyzer()
+        with open("augs/files/geox.json",'r') as geoxs:
+            self._geoxs=json.load(geoxs)
+        self._morph=pymorphy2.MorphAnalyzer()
 
     def apply(self, text: str):
         text = text.split(" ")
@@ -16,8 +21,9 @@ class Aug_change_geox(BaseAug):
             # ищем слово с заглавной буквы
             if word.istitle() == True:
                 # проверяем, является найденное слово географическим названием
-                firstword = self.morph.parse(word)[0]
+                firstword = self._morph.parse(word)[0]
                 if "Geox" in firstword.tag:
+                    newword=word
                     # запоминаем исходный падеж
                     case = firstword.tag.case
                     # для поиска слова в списке геогр.названием выбирапм форму Им.Падежа и пишем ей с заглавной буквы
@@ -44,10 +50,13 @@ class Aug_change_geox(BaseAug):
                     for t in self._geoxs["океаны"]:
                         if checkword == t:
                             newword = random.choice(self._geoxs["океаны"])
+                    #если в словаре не нашлось такого географического названия, то мы его пропускаем
+                    if newword==word:
+                        continue
                     # загружаем новое слово в pymorphy, чтобы получить нужную форму
-                    secondword = self.morph.parse(newword)[0]
+                    secondword = self._morph.parse(newword)[0]
                     # проверяем "совмеестимость" предлога
-                    if text[text.index(word) - 1].lower() in ["в", "во"] :
+                    if text[text.index(word) - 1].lower() in ["в", "во"]:
                         case = 'loct'
                         reg = re.compile("^[В|Ф][^аоуэиыяеёю]")
                         result = re.match(reg, newword)

@@ -1,10 +1,15 @@
-from augs.base_aug import BaseAug
-import pymorphy2
 import random
-class Aug_random_change_words(BaseAug):
+
+import pymorphy2
+
+from augs.base_aug import BaseAug
+
+
+#аугментация, которая меняет местами два случайных слова в предложении
+class AugRandomChangeWords(BaseAug):
 
     def __init__(self):
-        self.morph = pymorphy2.MorphAnalyzer()
+        self._morph = pymorphy2.MorphAnalyzer()
 
     def apply(self, text: str):
         text = text.split(" ")
@@ -14,11 +19,11 @@ class Aug_random_change_words(BaseAug):
         word1 = text[r1]
         word2 = text[r2]
         if word1.istitle() or word2.istitle():
-            firstword = self.morph.parse(text[r1])[0]
+            firstword = self._morph.parse(text[r1])[0]
             if "Name" not in firstword.tag and "Geox" not in firstword.tag:
                 text[r1] = text[r1].lower()
-            secondword = self.morph.parse(text[r2])[0]
-            if "Name" not in firstword.tag and "Geox" not in firstword.tag:
+            secondword = self._morph.parse(text[r2])[0]
+            if "Name" not in secondword.tag and "Geox" not in secondword.tag:
                 text[r2] = text[r2].lower()
         text[r1] = word2
         text[r2] = word1
@@ -26,14 +31,17 @@ class Aug_random_change_words(BaseAug):
         newtext = " ".join(text)
         return newtext
 
-class Aug_change_letter(BaseAug):
 
+#аугментация, которая меняет две случайные буквы в слове
+class AugChangeLetters(BaseAug):
+
+##никаких атрибутов в этой функции не требуется, но я не знаю, можно ли писать так или нужно удалить def __init__ совсем
     def __init__(self):
         pass
 
     def apply(self, text: str):
         letter = random.choice(text)
-        if text.index(letter)!=0:
+        if text.index(letter) != 0:
             letter2= text[text.index(letter) - 1]
             newtext = text.replace(letter2+letter, letter + letter2)
         else:

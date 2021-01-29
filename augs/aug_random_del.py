@@ -1,10 +1,15 @@
-from augs.base_aug import BaseAug
 import random
 
-class Aug_random_del_word(BaseAug):
+from augs.base_aug import BaseAug
 
+
+#аугментация, которая удаляет случайное слово в предложении
+class AugRandomDelWord(BaseAug):
+
+    ##никаких атрибутов в этой функции не требуется, но я не знаю, можно ли писать так или нужно удалить def __init__ совсем
     def __init__(self):
         pass
+
     def apply(self, text: str):
         text = text.split(" ")
         l = len(text)
@@ -14,10 +19,14 @@ class Aug_random_del_word(BaseAug):
         newtext = " ".join(text)
         return newtext
 
-class Aug_random_del_letter(BaseAug):
 
+#аугментация, которая удаляет случайную букву в слове
+class AugRandomDelLetter(BaseAug):
+
+    ##никаких атрибутов в этой функции не требуется, но я не знаю, можно ли писать так или нужно удалить def __init__ совсем
     def __init__(self):
         pass
+
     def apply(self, text: str):
         letter = random.choice(text)
         newtext=text.replace(letter,"")

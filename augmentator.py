@@ -3,17 +3,17 @@ from random import random
 
 from augs.aug_ner import NERAug
 from augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
-from augs.aug_change_adj import Aug_change_adj
-from augs.aug_change_date import Aug_change_date, Aug_change_time
-from augs.aug_change_geox import Aug_change_geox
-from augs.aug_change_name import Aug_change_name
-from augs.aug_change_number import Aug_change_number, Aug_change_number_2
-from augs.aug_import_letter import Aug_add_letter
-from augs.aug_introduction_words import Aug_introduction_words
-from augs.aug_misprint import Aug_misprint
-from augs.aug_random_change import Aug_change_letter, Aug_random_change_words
-from augs.aug_random_del import Aug_random_del_letter, Aug_random_del_word
-from augs.aug_translation import Aug_translation
+from augs.aug_change_adj import AugChangeAdj
+from augs.aug_change_date import AugChangeDate, AugChangeTime
+from augs.aug_change_geox import AugChangeGeox
+from augs.aug_change_name import AugChangeName
+from augs.aug_change_number import AugChangeNumber, AugChangeNumber2
+from augs.aug_import_letter import AugAddLetter
+from augs.aug_introduction_words import AugIntroductionWords
+from augs.aug_misprint import AugMisprint
+from augs.aug_random_change import AugChangeLetters, AugRandomChangeWords
+from augs.aug_random_del import AugRandomDelLetter, AugRandomDelWord
+from augs.aug_translation import AugTranslation
 from augmentations import FirstAugmentation, Second_augmantation, ThirdAugmentation, FourthAugmentation, FifthAugmentation, SixthAugmentation
 
 AUGMENTATIONS = {
