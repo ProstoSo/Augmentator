@@ -16,8 +16,8 @@ class AugChangeNumber(BaseAug):
         for el in txt:
             if el.isdigit():
                 c = len(el) - 1
-                a = int("1" + c * "0")
-                b = int("9" * c + "9")
+                a = int("1" + "0" * c)
+                b = int("9" + "9" * c)
                 n = random.randint(a, b)
                 word = txt[txt.index(el) + 1]
                 # процесс согласования
