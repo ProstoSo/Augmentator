@@ -54,7 +54,7 @@ class AugOpenAbbr(BaseAug):
                             newword = ww.inflect({prword_case}).word
                         else:
                             newword = w
-                        if w.istitle() == True:
+                        if w.istitle():
                             newwlst.append(newword.capitalize())
                         else:
                             newwlst.append(newword)
