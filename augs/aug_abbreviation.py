@@ -11,9 +11,9 @@ class AugOpenAbbr(BaseAug):
         with open("augs/files/abbreviations.json") as abbs:
             self._abbs=json.load(abbs)
         self._morph=pymorphy2.MorphAnalyzer()
+        self._case = "nomn"
 
     def check_case(self, word):
-        self._case="nomn"
         if word in ["в", "о"]:
                 self._case = 'loct'
         elif word in ["за", "над", "под"]:
@@ -33,39 +33,34 @@ class AugOpenAbbr(BaseAug):
                 word=word.replace(els,"")
             # ищем аббревиатуру в тексте
             if word.isupper() and len(word) > 1:
-                firstword = self._morph.parse(word)[0]
-                for el in self._abbs:
-                    # ищем аббревиатуру в словаре
-                    if el == word:
-                        newwords = self._abbs[word]
-                if newwords == "":
-                    continue
-                # проверяем корректность падежа
-                prword= text[text.index(oldword) - 1].lower()
-               #если предыдущее слово это союз, то нужно посмотреть, что было перед союзом
-                if prword=="и":
-                    prword =text[text.index(oldword) - 2]
-                    #если перед союзом ещё одна аббревиатура (расшифрованная в ходе программы или нет), то
-                    #выбираем падеж исходя из того, что стоит перед аббревиатурой
-                    if prword.isupper() or " " in prword:
-                        prword=text[text.index(oldword) - 3].lower()
-                self.check_case(prword)
-                newwordss = newwords.split(" ")
-                newwlst = []
-                # склоняем слова
-                for w in newwordss:
-                    ww = self._morph.parse(w)[0]
-                    if ww.tag.case == "nomn":
-                        newword = ww.inflect({self._case}).word
-                    else:
-                        newword = w
-                    if w.istitle() == True:
-                        newwlst.append(newword.capitalize())
-                    else:
-                        newwlst.append(newword)
-                newword1=" ".join(newwlst)
-                n =text.index(oldword)
-                text[n] = text[n].replace(word,newword1)
+                if word in self._abbs:
+                    newwords = self._abbs[word]
+                    # проверяем корректность падежа
+                    prword= text[text.index(oldword) - 1].lower()
+                   #если предыдущее слово это союз, то нужно посмотреть, что было перед союзом
+                    if prword=="и":
+                        prword =text[text.index(oldword) - 2]
+                        #если перед союзом ещё одна аббревиатура (расшифрованная в ходе программы или нет), то
+                        #выбираем падеж исходя из того, что стоит перед аббревиатурой
+                        if prword.isupper() or " " in prword:
+                            prword=text[text.index(oldword) - 3].lower()
+                    prword_case=self.check_case(prword)
+                    newwordss = newwords.split(" ")
+                    newwlst = []
+                    # склоняем слова
+                    for w in newwordss:
+                        ww = self._morph.parse(w)[0]
+                        if ww.tag.case == "nomn":
+                            newword = ww.inflect({prword_case}).word
+                        else:
+                            newword = w
+                        if w.istitle() == True:
+                            newwlst.append(newword.capitalize())
+                        else:
+                            newwlst.append(newword)
+                    newword1=" ".join(newwlst)
+                    n =text.index(oldword)
+                    text[n] = text[n].replace(word,newword1)
         newtext = " ".join(text)
         return newtext
 
@@ -79,10 +74,10 @@ class AugCloseAbbr(BaseAug):
 
     def apply(self, text: str):
         txt = text.split(" ")
+        newword = ""
         # создаем предложение, в котором все слова в стандартной форме, для того, чтобы позже найти расшифрованную аббревиатуру
         workinglst = []
         for word in txt:
-            newword = ""
             for els in [",",".","!","?"]:
                 if els in word:
                     word=word.replace(els,"")
@@ -123,8 +118,8 @@ class AugCloseAbbr(BaseAug):
                         # добавляем слова из расшифровки в отдельный список
                         if checkword == els.lower():
                             l2.append(words)
-            # объединяем список, чтобы получить шаблон для замены
-            r = " ".join(l2)
-            # заменяем расшифровку на аббревиатуру
-            text = text.replace(r, newword)
+                # объединяем список, чтобы получить шаблон для замены
+                r = " ".join(l2)
+                # заменяем расшифровку на аббревиатуру
+                text = text.replace(r, newword)
         return text
