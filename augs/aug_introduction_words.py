@@ -21,7 +21,7 @@ class AugIntroductionWords(BaseAug):
         newword = random.choice(self._introduction_words_lst)
         count = len(txt) - 1
         place = random.randint(0, count)
-        if txt[place - 1] != "не" and txt[place - 1] != "ни" and txt[place - 1] != "ли":
+        if txt[place - 1] not in {'не', 'ни', 'ли'}:
             txt.insert(place, ",")
             txt.insert(place, newword)
             if place != 0:

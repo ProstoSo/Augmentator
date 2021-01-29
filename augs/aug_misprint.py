@@ -13,15 +13,11 @@ class AugMisprint(BaseAug):
 
     def apply(self, text: str):
         letter = random.choice(text)
-        if letter.isupper():
-            t=1
-        else:
-            t=0
-        for l in self._marks["letters"][0]:
-            if l == letter.lower():
-                m = self._marks["letters"][0][l]
+        is_upper = True if letter.isupper() else False
+        if letter.lower() in self._marks:
+                m = self._marks[letter]
                 mark = random.choice(m)
-                if t==1:
+                if is_upper:
                     mark=mark.capitalize()
                 newtext = text.replace(letter, mark)
                 return newtext

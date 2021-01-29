@@ -8,10 +8,9 @@ class AugTranslation(BaseAug):
 
     ##никаких атрибутов в этой функции не требуется, но я не знаю, можно ли писать так или нужно удалить def __init__ совсем
     def __init__(self):
-        pass
+        self._translator = Translator()
 
     def apply(self, text: str):
-        translator = Translator()
-        result0 = translator.translate(text, scr='ru', dest='en')
-        result = translator.translate(result0.text, src='en', dest='ru')
+        result0 = self._translator.translate(text, scr='ru', dest='en')
+        result = self._translator.translate(result0.text, src='en', dest='ru')
         return result.text

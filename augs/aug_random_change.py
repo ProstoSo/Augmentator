@@ -32,12 +32,8 @@ class AugRandomChangeWords(BaseAug):
         return newtext
 
 
-#аугментация, которая меняет две случайные буквы в слове
+#аугментация, которая меняет две соседние буквы в слове
 class AugChangeLetters(BaseAug):
-
-##никаких атрибутов в этой функции не требуется, но я не знаю, можно ли писать так или нужно удалить def __init__ совсем
-    def __init__(self):
-        pass
 
     def apply(self, text: str):
         letter = random.choice(text)
