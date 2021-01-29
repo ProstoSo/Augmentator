@@ -16,7 +16,7 @@ class AugChangeNumber(BaseAug):
         for el in txt:
             if el.isdigit():
                 c = len(el) - 1
-                a = int("1" * c + "0")
+                a = int("1" + c * "0")
                 b = int("9" * c + "9")
                 n = random.randint(a, b)
                 word = txt[txt.index(el) + 1]
@@ -24,7 +24,7 @@ class AugChangeNumber(BaseAug):
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                if n == 11 or n == 12 or n == 13 or n == 14:
+                if str(n).endswith("11") or str(n).endswith("12")  or str(n).endswith("13")  or str(n).endswith("14") :
                     w = word_0.inflect({'plur'})
                     w = w.inflect({'gent'})
                     new_form = w.word
@@ -52,7 +52,7 @@ class AugChangeNumber2(BaseAug):
         self._morph = pymorphy2.MorphAnalyzer()
 
 ##вижу, что у базовой аугментации нет места для аргументов a и b, но не знаю, как решить эту проблему
-    def apply(self, text: str,a:int, b:int):
+    def apply(self, text: str,a:int=None, b:int=None):
         txt = text.split(" ")
         for el in txt:
             if el.isdigit():
@@ -62,7 +62,7 @@ class AugChangeNumber2(BaseAug):
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                if n == 11 or n == 12 or n == 13 or n == 14:
+                if str(n).endswith("11") or str(n).endswith("12")  or str(n).endswith("13")  or str(n).endswith("14") :
                     w = word_0.inflect({'plur'})
                     w = w.inflect({'gent'})
                     new_form = w.word

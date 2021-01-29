@@ -19,39 +19,22 @@ class AugChangeGeox(BaseAug):
         text = text.split(" ")
         for word in text:
             # ищем слово с заглавной буквы
-            if word.istitle() == True:
+            if word.istitle():
                 # проверяем, является найденное слово географическим названием
                 firstword = self._morph.parse(word)[0]
                 if "Geox" in firstword.tag:
-                    newword=word
+                    newword = word
                     # запоминаем исходный падеж
                     case = firstword.tag.case
                     # для поиска слова в списке геогр.названием выбирапм форму Им.Падежа и пишем ей с заглавной буквы
                     checkword = firstword.normal_form.capitalize()
                     # проверяем, каким типом топонимов является слово
-                    for t in self._geoxs["города"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["города"])
-                    for t in self._geoxs["материки"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["материки"])
-                    for t in self._geoxs["страны"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["страны"])
-                    for t in self._geoxs["реки"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["реки"])
-                    for t in self._geoxs["моря"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["моря"])
-                    for t in self._geoxs["озёра"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["озёра"])
-                    for t in self._geoxs["океаны"]:
-                        if checkword == t:
-                            newword = random.choice(self._geoxs["океаны"])
+                    for geo_type, names in self._geoxs.items():
+                        if checkword in names:
+                            newword = random.choice(names)
+                            break
                     #если в словаре не нашлось такого географического названия, то мы его пропускаем
-                    if newword==word:
+                    if newword == word:
                         continue
                     # загружаем новое слово в pymorphy, чтобы получить нужную форму
                     secondword = self._morph.parse(newword)[0]
@@ -60,10 +43,12 @@ class AugChangeGeox(BaseAug):
                         case = 'loct'
                         reg = re.compile("^[В|Ф][^аоуэиыяеёю]")
                         result = re.match(reg, newword)
+                        prword = text[text.index(word) - 1]
                         if result != None:
-                            text[text.index(word) - 1] = text[text.index(word) - 1] + "о"
+                            prword = prword + "о"
                         else:
-                            text[text.index(word) - 1] = text[text.index(word) - 1][:1]
+                            prword = prword[:1]
+                        text[text.index(word) - 1] = prword
                         # выбираем нужную форму слова и меняем первую букву слова на заглавную
                     newword1 = secondword.inflect({case}).word.capitalize()
                     # заменяем старое слово на новое
