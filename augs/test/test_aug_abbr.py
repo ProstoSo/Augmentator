@@ -14,6 +14,12 @@ class TestAugCloseAbbr(unittest.TestCase):
         text = self._augmentation.apply(text)
         self.assertEqual(augmented_true_text, text)
 
+ #если в тексте нет аббревиатуры, текст должен остаться неизменным
+    def test_augmentation_2(self):
+        text = 'Ты ходил за молоком.'
+        augmented_true_text = 'Ты ходил за молоком.'
+        text = self._augmentation.apply(text)
+        self.assertEqual(augmented_true_text, text)
 
 class TestAugOpenAbbr(unittest.TestCase):
 
