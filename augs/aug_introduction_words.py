@@ -10,7 +10,7 @@ class AugIntroductionWords(BaseAug):
 
     def __init__(self):
         self._morph = pymorphy2.MorphAnalyzer()
-        with open("/augs/files/introduction_words.txt","r")as inwords:
+        with open("files/introduction_words.txt","r", encoding='utf-8')as inwords:
             self._introduction_words_lst = inwords.read().split("\n")
 
     def apply(self, text: str):

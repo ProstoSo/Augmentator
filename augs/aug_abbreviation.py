@@ -1,14 +1,15 @@
 import json
+import os
 
 import pymorphy2
 
 from augs.base_aug import BaseAug
-
+from paths import FILES_PATH
 
 class AugOpenAbbr(BaseAug):
 
     def __init__(self):
-        with open("augs/files/abbreviations.json",'r') as abbs:
+        with open(os.path.join(FILES_PATH, 'abbreviations.json'), 'r', encoding='utf-8') as abbs:
             self._abbs=json.load(abbs)
         self._morph=pymorphy2.MorphAnalyzer()
 
@@ -38,7 +39,7 @@ class AugOpenAbbr(BaseAug):
                     # проверяем корректность падежа
                     prword= text[text.index(oldword) - 1].lower()
                    #если предыдущее слово это союз, то нужно посмотреть, что было перед союзом
-                    if prword=="и":
+                    if prword=="и" or prword == 'или':
                         prword =text[text.index(oldword) - 2]
                         #если перед союзом ещё одна аббревиатура (расшифрованная в ходе программы или нет), то
                         #выбираем падеж исходя из того, что стоит перед аббревиатурой
@@ -67,7 +68,7 @@ class AugOpenAbbr(BaseAug):
 
 class AugCloseAbbr(BaseAug):
     def __init__(self):
-        with open("augs/files/abbreviations.json",'r') as abbs:
+        with open(os.path.join(FILES_PATH, 'abbreviations.json'), 'r', encoding='utf-8') as abbs:
             abbs0=json.load(abbs)
             self._abbs=dict(zip(abbs0.values(), abbs0.keys()))
         self._morph=pymorphy2.MorphAnalyzer()
@@ -78,9 +79,9 @@ class AugCloseAbbr(BaseAug):
         # создаем предложение, в котором все слова в стандартной форме, для того, чтобы позже найти расшифрованную аббревиатуру
         workinglst = []
         for word in txt:
-            for els in [",",".","!","?"]:
-                if els in word:
-                    word=word.replace(els,"")
+            for symb in [",",".","!","?"]:
+                if symb in word:
+                    word=word.replace(symb,"")
             firstword = self._morph.parse(word)[0]
             checkword = firstword.normal_form
             workinglst.append(checkword)
@@ -109,6 +110,9 @@ class AugCloseAbbr(BaseAug):
                      #если же в расшифровке присутсвуют слова в косвенном падеже, то они не меняют падеж внутри предложения
                     checking = self._morph.parse(els)[0]
                     for words in txt:
+                        for symb in [",", ".", "!", "?"]:
+                            if symb in words:
+                                words = words.replace(symb, "")
                         if checking.tag.case == "nomn":
                             firstword = self._morph.parse(words)[0]
                             checkword = firstword.normal_form

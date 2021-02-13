@@ -11,7 +11,7 @@ from augs.base_aug import BaseAug
 class AugChangeGeox(BaseAug):
 
     def __init__(self):
-        with open("augs/files/geox.json",'r') as geoxs:
+        with open("files/geox.json",'r',encoding='utf-8') as geoxs:
             self._geoxs=json.load(geoxs)
         self._morph=pymorphy2.MorphAnalyzer()
 

@@ -8,7 +8,7 @@ from augs.base_aug import BaseAug
 class AugAddLetter(BaseAug):
 
     def __init__(self):
-        with open("augs/files/marks.json",'r') as marks:
+        with open("files/marks.json",'r', encoding='utf-8') as marks:
             self._marks=json.load(marks)
 
     def apply(self, text: str):

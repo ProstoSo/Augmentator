@@ -9,11 +9,11 @@ from augs.base_aug import BaseAug
 class AugChangeName(BaseAug):
 
     def __init__(self):
-        with open("augs/files/names.txt", "r") as names:
+        with open("files/names.txt", "r", encoding='utf-8') as names:
             self._names_lst = names.read().split(" ")
-        with open("augs/files/femnames.txt", "r") as fnames:
+        with open("files/femnames.txt", "r", encoding='utf-8') as fnames:
             self._fems_names_lst = fnames.read().split(" ")
-        with open("augs/files/mascnames.txt", "r") as mnames:
+        with open("files/mascnames.txt", "r", encoding='utf-8') as mnames:
             self._masc_names_lst = mnames.read().split(" ")
         self._morph=pymorphy2.MorphAnalyzer()
 
