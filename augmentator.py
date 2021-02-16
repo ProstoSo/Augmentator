@@ -17,7 +17,30 @@ from augs.aug_translation import AugTranslation
 from augmentations import FirstAugmentation, Second_augmantation, ThirdAugmentation, FourthAugmentation, FifthAugmentation, SixthAugmentation
 
 AUGMENTATIONS = {
-    'ner_aug': NERAug
+    'ner_aug': NERAug,
+    'open_abbreviation_aug':AugOpenAbbr,
+    'close_abbreviation_aug':AugCloseAbbr,
+    'change_date_aug':AugChangeDate,
+    'change_adj_aug' :AugChangeAdj,
+    'change_time_aug': AugChangeTime,
+    'change_geox_aug':AugChangeGeox,
+    'change_name_aug' :AugChangeName,
+    'change_number_aug ': AugChangeNumber,
+    'change_number_2_aug ': AugChangeNumber2,
+    'import_letter_aug' : AugAddLetter,
+    'introduction_words_aug ': AugIntroductionWords,
+    'misprint_aug ': AugMisprint,
+    'random_change_letters_aug' : AugChangeLetters,
+    'random_change_words_aug': AugRandomChangeWords,
+    'random_del_letters_aug': AugRandomDelLetter,
+    'random_del_word_aug': AugRandomDelWord,
+    'translation_aug': AugTranslation,
+    'first_synt_aug': FirstAugmentation,
+    'second_synt_aug':Second_augmantation,
+    'third_synt_aug':ThirdAugmentation,
+    'fourth_synt_aug':FourthAugmentation,
+    'fifth_synt_aug': FifthAugmentation,
+    'sixth_synt_aug': SixthAugmentation
     
 }
 
