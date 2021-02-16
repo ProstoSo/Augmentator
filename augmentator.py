@@ -1,5 +1,5 @@
 from typing import Dict
-from random import random
+from random import random, shuffle
 
 from augs.aug_ner import NERAug
 from augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
@@ -57,11 +57,15 @@ class Augmentator:
         print(f'Initialized {len(self._augmentations)} augmentations')
         self._n_aug = n_aug
 
+
     def augment(self, text: str) -> str:
         applied_counter = 0
-        for augmentation, prob in self._augmentations.items():
+        keys_list=list(self._augmentations.keys())
+        shuffle(keys_list)
+
+        for augmentation in keys_list:
             aug_prob = random()
-            if aug_prob < prob:
+            if aug_prob < self._augmentations[augmentation]:
                 text = augmentation.apply(text)
                 applied_counter += 1
                 if applied_counter == self._n_aug:
