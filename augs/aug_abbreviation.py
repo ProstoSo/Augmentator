@@ -3,7 +3,7 @@ import os
 
 import pymorphy2
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 from paths import FILES_PATH
 
 

@@ -1,4 +1,4 @@
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 
 class NERAug(BaseAug):
