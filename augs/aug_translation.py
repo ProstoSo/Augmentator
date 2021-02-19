@@ -1,6 +1,6 @@
 from googletrans import Translator
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 #аугментация, которая совершает перевод на английский язык и обратно
 class AugTranslation(BaseAug):

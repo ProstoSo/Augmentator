@@ -3,7 +3,7 @@ import json
 import os
 
 from .base_aug import BaseAug
-from paths import FILES_PATH
+from .paths import FILES_PATH
 
 
 #аугментация, которая добавляет одну букву в слово, учитывая ближайшее окуржение вокруг буквы на клавиатуре

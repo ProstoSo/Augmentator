@@ -4,7 +4,7 @@ import os
 import pymorphy2
 
 from .base_aug import BaseAug
-from paths import FILES_PATH
+from .paths import FILES_PATH
 
 #аугментация, которая изменяет мужские имена на мужские, женские на женские, а имена неодназначно определяющие пол на имена такого типа
 class AugChangeName(BaseAug):

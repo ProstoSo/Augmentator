@@ -3,7 +3,7 @@ import json
 import os
 
 from .base_aug import BaseAug
-from paths import FILES_PATH
+from .paths import FILES_PATH
 
 #аугментация, которая заменяет букву в слове на одну из букв в ближайщем окружении на клавиатуре
 class AugMisprint(BaseAug):

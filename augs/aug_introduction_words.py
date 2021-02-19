@@ -4,7 +4,7 @@ import os
 import pymorphy2
 
 from .base_aug import BaseAug
-from paths import FILES_PATH
+from .paths import FILES_PATH
 
 
 #аугментация, которая добавляет вводные слова и необходимые запятые
