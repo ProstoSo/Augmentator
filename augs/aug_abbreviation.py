@@ -15,7 +15,7 @@ class AugOpenAbbr(BaseAug):
         self._morph = pymorphy2.MorphAnalyzer()
 
     def _check_case(self, word):
-        case = "nonm"
+        case = "nomn"
         if word in ["в", "о"]:
             case = 'loct'
         elif word in ["за", "над", "под"]:
