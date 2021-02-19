@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # Загружаем корпус и делим его на предложения
 
-f = open("ru_syntagrus-ud-train.conllu.txt", "r")
-fn = f.read()
-fnn = fn.split("\n\n")
+with open("ru_syntagrus-ud-train.conllu.txt", "r", encoding='utf-8') as f:
+    fnn = f.read().split("\n\n")
 
 for el in fnn:
     if el == "":

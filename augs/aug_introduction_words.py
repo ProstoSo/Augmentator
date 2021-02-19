@@ -1,8 +1,10 @@
 import random
+import os
 
 import pymorphy2
 
 from augs.base_aug import BaseAug
+from paths import FILES_PATH
 
 
 #аугментация, которая добавляет вводные слова и необходимые запятые
@@ -10,7 +12,7 @@ class AugIntroductionWords(BaseAug):
 
     def __init__(self):
         self._morph = pymorphy2.MorphAnalyzer()
-        with open("/augs/files/introduction_words.txt","r")as inwords:
+        with open(os.path.join(FILES_PATH,"introduction_words.txt"),"r", encoding='utf-8') as inwords:
             self._introduction_words_lst = inwords.read().split("\n")
 
     def apply(self, text: str):

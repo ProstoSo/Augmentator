@@ -6,14 +6,15 @@ import pymorphy2
 from augs.base_aug import BaseAug
 
 
-#аугментация в которой меняем месяц, год или дату в формате дд мм гггг
+# аугментация в которой меняем месяц, год или дату в формате дд мм гггг
 class AugChangeDate(BaseAug):
 
     def __init__(self):
-        self._morph=pymorphy2.MorphAnalyzer()
-        self._months=["январь", "февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"]
+        self._morph = pymorphy2.MorphAnalyzer()
+        self._months = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
+                        "ноябрь", "декабрь"]
         self._date = re.compile('\d{2}(.|-|/)\d{2}(.|-|/)\d{4}')
-        self._year=re.compile("\d{4}")
+        self._year = re.compile("\d{4}")
 
     def apply(self, text: str):
         txt = text.split(" ")
@@ -35,7 +36,7 @@ class AugChangeDate(BaseAug):
                 elif "/" in elem:
                     p = "/"
                 else:
-                    p=" "
+                    p = " "
                 y = random.randint(1600, 2022)
                 m = random.randint(1, 12)
                 if m in [1, 3, 5, 7, 8, 10, 12]:
@@ -45,8 +46,8 @@ class AugChangeDate(BaseAug):
                 elif m == 2:
                     day = random.randint(1, 28)
                 else:
-                    day=0
-                #для одинарных чисел приписываем 0
+                    day = 0
+                # для одинарных чисел приписываем 0
                 # 1.1.2020 -> 01.01.2020
                 if len(str(m)) == 1:
                     m = "0" + str(m)
@@ -55,7 +56,7 @@ class AugChangeDate(BaseAug):
                 newdate = str(day) + p + str(m) + p + str(y)
                 text = text.replace(elem, newdate)
                 # заменяем месяц
-            element=self._morph.parse(elem)[0]
+            element = self._morph.parse(elem)[0]
             elemnomn = element.normal_form
             case = element.tag.case
             if elemnomn in self._months:
@@ -65,11 +66,11 @@ class AugChangeDate(BaseAug):
         return text
 
 
-#аугментация, которая меняет время в формате чч:мм
+# аугментация, которая меняет время в формате чч:мм
 class AugChangeTime(BaseAug):
 
     def __init__(self):
-        self._time=re.compile("(([0,1][0-9])|(2[0-3])):[0-5][0-9]")
+        self._time = re.compile("(([0,1][0-9])|(2[0-3])):[0-5][0-9]")
 
     def apply(self, text: str):
         txt = text.split(" ")
@@ -79,12 +80,12 @@ class AugChangeTime(BaseAug):
             else:
                 elem = el
             if re.match(self._time, elem) != None:
-                hour=random.randint(0,24)
-                minute=random.randint(0,59)
-                if len(str(hour))==1:
-                    hour="0"+str(hour)
-                if len(str(minute))==1:
-                    minute="0"+str(minute)
-                newtime=str(hour)+":"+str(minute)
-                text=text.replace(elem,newtime)
+                hour = random.randint(0, 24)
+                minute = random.randint(0, 59)
+                if len(str(hour)) == 1:
+                    hour = "0" + str(hour)
+                if len(str(minute)) == 1:
+                    minute = "0" + str(minute)
+                newtime = str(hour) + ":" + str(minute)
+                text = text.replace(elem, newtime)
         return text

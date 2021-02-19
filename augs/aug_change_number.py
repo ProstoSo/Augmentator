@@ -14,6 +14,11 @@ class AugChangeNumber(BaseAug):
     def apply(self, text: str):
         txt = text.split(" ")
         for el in txt:
+            s = ""
+            for symb in [",", ".", "!", "?"]:
+                if symb in el:
+                    el = el.replace(symb, "")
+                    s = symb
             if el.isdigit():
                 c = len(el) - 1
                 if c == 0:
@@ -22,7 +27,16 @@ class AugChangeNumber(BaseAug):
                     a = int("1" + "0" * c)
                 b = int("9" + "9" * c)
                 n = random.randint(a, b)
-                word = txt[txt.index(el) + 1]
+                wordind= txt.index(el+s)
+                if wordind+1 >= len(txt):
+                    word = txt[wordind - 1]
+                else:
+                    word = txt[wordind + 1]
+                s2=""
+                for symb in [",", ".", "!", "?"]:
+                    if symb in word:
+                        word = word.replace(symb, "")
+                        s2 = symb
                 # процесс согласования
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
@@ -42,8 +56,8 @@ class AugChangeNumber(BaseAug):
                         w = word_0.inflect({'plur'})
                         w = w.inflect({'gent'})
                         new_form = w.word
-                txt[txt.index(el)] = str(n)
-                txt[txt.index(word)] = new_form
+                txt[txt.index(el+s)] = str(n)
+                txt[txt.index(word+s2)] = new_form+s2
         text = " ".join(txt)
         return text
 
@@ -58,9 +72,23 @@ class AugChangeNumber2(BaseAug):
     def apply(self, text: str,a:int=None, b:int=None):
         txt = text.split(" ")
         for el in txt:
+            s1 = ""
+            for symb in [",", ".", "!", "?"]:
+                if symb in el:
+                    el = el.replace(symb, "")
+                    s1 = symb
             if el.isdigit():
+                s2=""
                 n = random.randint(a, b)
-                word = txt[txt.index(el) + 1]
+                wordind = txt.index(el + s1)
+                if wordind + 1 >= len(txt):
+                    word = txt[wordind - 1]
+                else:
+                    word = txt[wordind + 1]
+                for symb in [",", ".", "!", "?"]:
+                    if symb in word:
+                        word = word.replace(symb, "")
+                        s2 = symb
                 # процесс согласования
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
@@ -80,7 +108,7 @@ class AugChangeNumber2(BaseAug):
                         w = word_0.inflect({'plur'})
                         w = w.inflect({'gent'})
                         new_form = w.word
-                txt[txt.index(el)] = str(n)
-                txt[txt.index(word)] = new_form
+                txt[txt.index(el+s1)] = str(n)
+                txt[txt.index(word+s2)] = new_form+s2
         text = " ".join(txt)
         return text
