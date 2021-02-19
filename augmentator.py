@@ -1,7 +1,6 @@
 from typing import Dict
 from random import random, shuffle
 
-from .augs.aug_ner import NERAug
 from .augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
 from .augs.aug_change_adj import AugChangeAdj
 from .augs.aug_change_date import AugChangeDate, AugChangeTime
@@ -17,7 +16,6 @@ from .augs.aug_translation import AugTranslation
 from .augmentations import FirstAugmentation, Second_augmantation, ThirdAugmentation, FourthAugmentation, FifthAugmentation, SixthAugmentation
 
 AUGMENTATIONS = {
-    'ner_aug': NERAug,
     'open_abbreviation_aug':AugOpenAbbr,
     'close_abbreviation_aug':AugCloseAbbr,
     'change_date_aug':AugChangeDate,
