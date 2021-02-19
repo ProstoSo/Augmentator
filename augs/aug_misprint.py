@@ -2,7 +2,7 @@ import random
 import json
 import os
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 from paths import FILES_PATH
 
 #аугментация, которая заменяет букву в слове на одну из букв в ближайщем окружении на клавиатуре

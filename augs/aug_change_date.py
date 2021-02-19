@@ -3,7 +3,7 @@ import random
 
 import pymorphy2
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 
 # аугментация в которой меняем месяц, год или дату в формате дд мм гггг

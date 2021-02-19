@@ -2,7 +2,7 @@ import random
 
 import pymorphy2
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 
 #аугментация, которая заменяет число с сохранением количества цифр в числе

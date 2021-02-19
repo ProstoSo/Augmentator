@@ -1,6 +1,6 @@
 import random
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 
 #аугментация, которая удаляет случайное слово в предложении

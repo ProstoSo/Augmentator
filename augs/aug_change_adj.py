@@ -1,6 +1,6 @@
 import pymorphy2
 
-from augs.base_aug import BaseAug
+from .base_aug import BaseAug
 
 
 # аугментация, в которой мы меняем местами два прилагательных, записанных через союз "и"
