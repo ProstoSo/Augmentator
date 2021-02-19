@@ -1,20 +1,20 @@
 from typing import Dict
 from random import random, shuffle
 
-from augs.aug_ner import NERAug
-from augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
-from augs.aug_change_adj import AugChangeAdj
-from augs.aug_change_date import AugChangeDate, AugChangeTime
-from augs.aug_change_geox import AugChangeGeox
-from augs.aug_change_name import AugChangeName
-from augs.aug_change_number import AugChangeNumber, AugChangeNumber2
-from augs.aug_import_letter import AugAddLetter
-from augs.aug_introduction_words import AugIntroductionWords
-from augs.aug_misprint import AugMisprint
-from augs.aug_random_change import AugChangeLetters, AugRandomChangeWords
-from augs.aug_random_del import AugRandomDelLetter, AugRandomDelWord
-from augs.aug_translation import AugTranslation
-from augmentations import FirstAugmentation, Second_augmantation, ThirdAugmentation, FourthAugmentation, FifthAugmentation, SixthAugmentation
+from .augs.aug_ner import NERAug
+from .augs.aug_abbreviation import AugOpenAbbr , AugCloseAbbr
+from .augs.aug_change_adj import AugChangeAdj
+from .augs.aug_change_date import AugChangeDate, AugChangeTime
+from .augs.aug_change_geox import AugChangeGeox
+from .augs.aug_change_name import AugChangeName
+from .augs.aug_change_number import AugChangeNumber, AugChangeNumber2
+from .augs.aug_import_letter import AugAddLetter
+from .augs.aug_introduction_words import AugIntroductionWords
+from .augs.aug_misprint import AugMisprint
+from .augs.aug_random_change import AugChangeLetters, AugRandomChangeWords
+from .augs.aug_random_del import AugRandomDelLetter, AugRandomDelWord
+from .augs.aug_translation import AugTranslation
+from .augmentations import FirstAugmentation, Second_augmantation, ThirdAugmentation, FourthAugmentation, FifthAugmentation, SixthAugmentation
 
 AUGMENTATIONS = {
     'ner_aug': NERAug,
