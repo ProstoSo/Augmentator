@@ -16,7 +16,10 @@ class AugAddLetter(BaseAug):
     def apply(self, text: str):
         letter = random.choice(text)
         if letter.lower() in self._marks:
-            m = self._marks[letter]
+            m = self._marks[letter.lower()]
             mark = random.choice(m)
-            newtext = text.replace(letter, letter+mark)
-            return newtext
+            l_ind = text.index(letter)+1
+            text = text[:l_ind] + mark + text[l_ind:]
+            text = text.replace(letter, letter+mark)
+
+        return text

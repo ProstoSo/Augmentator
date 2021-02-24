@@ -21,7 +21,6 @@ class AugMisprint(BaseAug):
                 if is_upper:
                     mark=mark.capitalize()
                 l_ind=text.index(letter)
-                print (text[:l_ind], text[l_ind+1:])
                 text= text[:l_ind]+ mark+text[l_ind+1:]
         return text
 
