@@ -21,5 +21,4 @@ class AugAddLetter(BaseAug):
             l_ind = text.index(letter)+1
             text = text[:l_ind] + mark + text[l_ind:]
             text = text.replace(letter, letter+mark)
-
         return text
