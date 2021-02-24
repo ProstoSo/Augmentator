@@ -16,7 +16,7 @@ class AugMisprint(BaseAug):
         letter = random.choice(text)
         is_upper = True if letter.isupper() else False
         if letter.lower() in self._marks:
-                m = self._marks[letter]
+                m = self._marks[letter.lower()]
                 mark = random.choice(m)
                 if is_upper:
                     mark=mark.capitalize()
