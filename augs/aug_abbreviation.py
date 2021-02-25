@@ -17,7 +17,7 @@ class AugOpenAbbr(BaseAug):
         with open(os.path.join(FILES_PATH, 'abbreviations.json'), 'r', encoding='utf-8') as abbs:
             self._abbs = json.load(abbs)
         self._morph = pymorphy2.MorphAnalyzer()
-        self._tokenizer = pyonmttok.Tokenizer("aggressive")
+        self._tokenizer = pyonmttok.Tokenizer('aggressive')
 
     def apply(self, text: str) -> str:
         tokens = self._tokenizer.tokenize(text)[0]

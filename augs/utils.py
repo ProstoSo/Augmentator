@@ -6,6 +6,6 @@ def remove_punctuation(word: str) -> str:
 
 
 def remove_whitespace(text: str) -> str:
-    for els in {',', '.', '!', '?'}:
+    for els in {',', '.', '!', '?', ':', ';'}:
         text = text.replace(f' {els}', els)
     return text
