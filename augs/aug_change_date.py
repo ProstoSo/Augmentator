@@ -3,11 +3,11 @@ import random
 
 import pymorphy2
 
-from .base_aug import BaseAug
+from augs.base_aug import BaseAug
 
 
-# аугментация в которой меняем месяц, год или дату в формате дд мм гггг
 class AugChangeDate(BaseAug):
+    """ Аугментация, в которой меняем месяц, год или дату в формате дд мм гггг """
 
     def __init__(self):
         self._morph = pymorphy2.MorphAnalyzer()
@@ -17,26 +17,26 @@ class AugChangeDate(BaseAug):
         self._year = re.compile("\d{4}")
 
     def apply(self, text: str):
-        txt = text.split(" ")
-        for el in txt:
-            if el.endswith(",") or el.endswith("."):
-                elem = el[:-1]
+        tokens = text.split(' ')
+        for token in tokens:
+            if token.endswith(',') or token.endswith('.'):
+                elem = token[:-1]
             else:
-                elem = el
+                elem = token
                 # заменяем только год
-            if re.match(self._year, elem) != None:
+            if re.match(self._year, elem) is not None:
                 y = random.randint(1600, 2022)
                 text = text.replace(elem, str(y))
             # заменяем дату в формате дд.мм.гггг дд/мм/гггг дд-мм-гггг
-            if re.match(self._date, elem) != None:
-                if "." in elem:
-                    p = "."
-                elif "-" in elem:
-                    p = "-"
-                elif "/" in elem:
-                    p = "/"
+            if re.match(self._date, elem) is not None:
+                if '.' in elem:
+                    p = '.'
+                elif '-' in elem:
+                    p = '-'
+                elif '/' in elem:
+                    p = '/'
                 else:
-                    p = " "
+                    p = ' '
                 y = random.randint(1600, 2022)
                 m = random.randint(1, 12)
                 if m in [1, 3, 5, 7, 8, 10, 12]:
@@ -73,19 +73,19 @@ class AugChangeTime(BaseAug):
         self._time = re.compile("(([0,1][0-9])|(2[0-3])):[0-5][0-9]")
 
     def apply(self, text: str):
-        txt = text.split(" ")
-        for el in txt:
-            if el.endswith(",") or el.endswith("."):
-                elem = el[:-1]
+        tokens = text.split(' ')
+        for token in tokens:
+            if token.endswith(',') or token.endswith('.'):
+                elem = token[:-1]
             else:
-                elem = el
-            if re.match(self._time, elem) != None:
+                elem = token
+            if re.match(self._time, elem) is not None:
                 hour = random.randint(0, 24)
                 minute = random.randint(0, 59)
                 if len(str(hour)) == 1:
-                    hour = "0" + str(hour)
+                    hour = '0' + str(hour)
                 if len(str(minute)) == 1:
-                    minute = "0" + str(minute)
-                newtime = str(hour) + ":" + str(minute)
+                    minute = '0' + str(minute)
+                newtime = str(hour) + ':' + str(minute)
                 text = text.replace(elem, newtime)
         return text
