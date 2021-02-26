@@ -2,7 +2,7 @@ import pymorphy2
 import pyonmttok
 
 from augs.base_aug import BaseAug
-from augs.utils import remove_whitespace
+from augs.utils import remove_whitespace, remove_punctuation_with_sign
 
 
 class AugChangeAdj(BaseAug):
@@ -21,11 +21,7 @@ class AugChangeAdj(BaseAug):
                 # запоминаем слово до союза и после
                 word1 = tokens[i - 1]
                 word2 = tokens[i + 1]
-                s = ''
-                for symb in [',', '.', '!', '?']:
-                    if symb in word2:
-                        word2 = word2.replace(symb, '')
-                        s=symb
+                word2, s = remove_punctuation_with_sign(word2)
                 firstword = self._morph.parse(word1)[0]
                 secondword = self._morph.parse(word2)[0]
                 # если слова - прилагательные, то меняем их местами
