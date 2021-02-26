@@ -12,7 +12,7 @@ class AugChangeAdj(BaseAug):
         self._morph = pymorphy2.MorphAnalyzer()
         self._tokenizer = pyonmttok.Tokenizer('aggressive')
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         # делим текст на отдельные слова
         tokens = self._tokenizer.tokenize(text)[0]
         for i, token in enumerate(tokens):
@@ -34,6 +34,6 @@ class AugChangeAdj(BaseAug):
                     tokens[i + 1] = word1.lower() + s
         # уточняем, что предолжение начинается с заглавной буквы
         tokens[0] = tokens[0].capitalize()
-        newtext = " ".join(tokens)
+        newtext = ' '.join(tokens)
         newtext = remove_whitespace(newtext)
         return newtext

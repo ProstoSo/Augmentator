@@ -1,60 +1,57 @@
 import random
 
 import pymorphy2
+import pyonmttok
 
-from .base_aug import BaseAug
+from augs.base_aug import BaseAug
+from augs.utils import remove_punctuation_with_sign, remove_whitespace
 
 
-#аугментация, которая меняет местами два случайных слова в предложении
 class AugRandomChangeWords(BaseAug):
+    """ Аугментация, которая меняет местами два случайных слова в предложении """
 
     def __init__(self):
         self._morph = pymorphy2.MorphAnalyzer()
+        self._tokenizer = pyonmttok.Tokenizer('aggressive')
 
     def apply(self, text: str):
-        text = text.split(" ")
-        l = len(text)
-        r1 = random.randint(0, l - 1)
-        r2 = random.randint(0, l - 1)
-        word1 = text[r1]
-        word2 = text[r2]
-        while word1==word2:
-            r1 = random.randint(0, l - 1)
-            word1 = text[r1]
-        s1 = ""
-        s2=""
-        for symb in [",", ".", "!", "?"]:
-            if symb in word1:
-                word1 = word1.replace(symb, "")
-                s1 = symb
-            if symb in word2:
-                word2 = word2.replace(symb, "")
-                s2 = symb
+        tokens = self._tokenizer.tokenize(text)[0]
+        n_tokens = len(tokens)
+        r1 = random.randint(0, n_tokens - 1)
+        r2 = random.randint(0, n_tokens - 1)
+        word1 = tokens[r1]
+        word2 = tokens[r2]
+        while word1 == word2:
+            r1 = random.randint(0, n_tokens - 1)
+            word1 = tokens[r1]
+        word1, s1 = remove_punctuation_with_sign(word1)
+        word2, s2 = remove_punctuation_with_sign(word2)
         if word1.istitle() or word2.istitle():
             firstword = self._morph.parse(word1)[0]
-            if "Name" not in firstword.tag and "Geox" not in firstword.tag:
+            if 'Name' not in firstword.tag and 'Geox' not in firstword.tag:
                 word1 = word1.lower()
             secondword = self._morph.parse(word2)[0]
-            if "Name" not in secondword.tag and "Geox" not in secondword.tag:
+            if 'Name' not in secondword.tag and 'Geox' not in secondword.tag:
                 word2 = word2.lower()
-        text[r1] = word2+s1
-        text[r2] = word1+s2
-        text[0] = text[0].capitalize()
-        newtext = " ".join(text)
+        tokens[r1] = word2 + s1
+        tokens[r2] = word1 + s2
+        tokens[0] = tokens[0].capitalize()
+        newtext = ' '.join(tokens)
+        newtext = remove_whitespace(newtext)
         return newtext
 
 
-#аугментация, которая меняет две соседние буквы в слове
 class AugChangeLetters(BaseAug):
+    """ Аугментация, которая меняет две соседние буквы в слове """
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         letter = random.choice(text)
-        letind=text.index(letter)
+        letind = text.index(letter)
         if letind != 0:
-            letter2= text[letind- 1]
-            newtext = text.replace(letter2+letter, letter + letter2)
+            letter2 = text[letind - 1]
+            newtext = text.replace(letter2 + letter, letter + letter2)
         else:
             letter2 = text[letind + 1]
-            newtext = text.replace(letter+letter2, letter2+letter)
+            newtext = text.replace(letter + letter2, letter2 + letter)
 
         return newtext

@@ -16,7 +16,7 @@ class AugChangeDate(BaseAug):
         self._date = re.compile('\d{2}(.|-|/)\d{2}(.|-|/)\d{4}')
         self._year = re.compile("\d{4}")
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         tokens = text.split(' ')
         for token in tokens:
             if token.endswith(',') or token.endswith('.'):
@@ -72,7 +72,7 @@ class AugChangeTime(BaseAug):
     def __init__(self):
         self._time = re.compile("(([0,1][0-9])|(2[0-3])):[0-5][0-9]")
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         tokens = text.split(' ')
         for token in tokens:
             if token.endswith(',') or token.endswith('.'):

@@ -1,27 +1,32 @@
 import random
 
-from .base_aug import BaseAug
+import pyonmttok
+
+from augs.base_aug import BaseAug
 
 
-#аугментация, которая удаляет случайное слово в предложении
 class AugRandomDelWord(BaseAug):
+    """ Аугментация, которая удаляет случайное слово в предложении """
 
-    def apply(self, text: str):
-        text = text.split(" ")
-        is_upper = True if text[0].isupper() else False
-        l = len(text)
-        r = random.randint(0, l - 1)
-        text.remove(text[r])
+    def __init__(self):
+        self._tokenizer = pyonmttok.Tokenizer('aggressive')
+
+    def apply(self, text: str) -> str:
+        tokens = self._tokenizer.tokenize(text)[0]
+        is_upper = True if tokens[0].isupper() else False
+        n_tokens = len(tokens)
+        r = random.randint(0, n_tokens - 1)
+        tokens.remove(tokens[r])
         if is_upper:
-            text[0] = text[0].capitalize()
-        newtext = " ".join(text)
+            tokens[0] = tokens[0].capitalize()
+        newtext = ' '.join(tokens)
         return newtext
 
 
-#аугментация, которая удаляет случайную букву в слове
 class AugRandomDelLetter(BaseAug):
+    """ Аугментация, которая удаляет случайную букву в слове """
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         letter = random.choice(text)
-        newtext=text.replace(letter,"")
+        newtext = text.replace(letter, '')
         return newtext

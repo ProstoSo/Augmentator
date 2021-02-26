@@ -1,35 +1,38 @@
-import random
 import os
+import random
 
 import pymorphy2
+import pyonmttok
 
-from .base_aug import BaseAug
-from .paths import FILES_PATH
+from augs.base_aug import BaseAug
+from augs.paths import FILES_PATH
+from augs.utils import remove_whitespace
 
 
-#аугментация, которая добавляет вводные слова и необходимые запятые
 class AugIntroductionWords(BaseAug):
+    """ Аугментация, которая добавляет вводные слова и необходимые запятые """
 
     def __init__(self):
         self._morph = pymorphy2.MorphAnalyzer()
-        with open(os.path.join(FILES_PATH,"introduction_words.txt"),"r", encoding='utf-8') as inwords:
-            self._introduction_words_lst = inwords.read().split("\n")
+        with open(os.path.join(FILES_PATH, 'introduction_words.txt'), 'r', encoding='utf-8') as inwords:
+            self._introduction_words_lst = inwords.read().split('\n')
+        self._tokenizer = pyonmttok.Tokenizer('aggressive')
 
-    def apply(self, text: str):
-        txt = text.split(" ")
-        firstword = self._morph.parse(txt[0])[0]
-        if "Name" not in firstword.tag and "Geox" not in firstword.tag:
-            txt[0] = txt[0].lower()
+    def apply(self, text: str) -> str:
+        tokens = self._tokenizer.tokenize(text)[0]
+        firstword = self._morph.parse(tokens[0])[0]
+        if 'Name' not in firstword.tag and 'Geox' not in firstword.tag:
+            tokens[0] = tokens[0].lower()
         newword = random.choice(self._introduction_words_lst)
-        count = len(txt) - 1
+        count = len(tokens) - 1
         place = random.randint(0, count)
-        if txt[place - 1] not in {'не', 'ни', 'ли'}:
-            txt.insert(place, ",")
-            txt.insert(place, newword)
+        if tokens[place - 1] not in {'не', 'ни', 'ли'}:
+            tokens.insert(place, ',')
+            tokens.insert(place, newword)
             if place != 0:
-                txt.insert(place, ",")
-        txt[0] = txt[0].capitalize()
-        newtext = " ".join(txt)
-        newtext = newtext.replace(" ,", ",")
-        newtext = newtext.replace(",.", ".")
+                tokens.insert(place, ',')
+        tokens[0] = tokens[0].capitalize()
+        newtext = ' '.join(tokens)
+        newtext = remove_whitespace(newtext)
+        newtext = newtext.replace(',.', '.')
         return newtext

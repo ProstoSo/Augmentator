@@ -1,8 +1,20 @@
+from typing import Tuple
+
+
 def remove_punctuation(word: str) -> str:
     for els in {',', '.', '!', '?'}:
         if els in word:
             word = word.replace(els, '')
     return word
+
+
+def remove_punctuation_with_sign(word: str) -> Tuple[str, str]:
+    s = ''
+    for symb in [',', '.', '!', '?']:
+        if symb in word:
+            word = word.replace(symb, "")
+            s = symb
+    return word, s
 
 
 def remove_whitespace(text: str) -> str:

@@ -7,7 +7,7 @@ import pymorphy2
 
 from augs.base_aug import BaseAug
 from augs.paths import FILES_PATH
-from augs.utils import remove_whitespace
+from augs.utils import remove_whitespace, remove_punctuation_with_sign
 
 
 class AugChangeGeox(BaseAug):
@@ -18,16 +18,13 @@ class AugChangeGeox(BaseAug):
             self._geoxs = json.load(geoxs)
         self._morph = pymorphy2.MorphAnalyzer()
 
-    def apply(self, text: str):
+    def apply(self, text: str) -> str:
         tokens = text.split(' ')
         for token in tokens:
             s = ''
             # ищем слово с заглавной буквы
             if token.istitle():
-                for symb in [',', '.', '!', '?']:
-                    if symb in token:
-                        token = token.replace(symb, '')
-                        s = symb
+                token, s = remove_punctuation_with_sign(token)
                 # проверяем, является найденное слово географическим названием
                 firstword = self._morph.parse(token)[0]
                 if 'Geox' in firstword.tag:
@@ -41,7 +38,7 @@ class AugChangeGeox(BaseAug):
                         if checkword in names:
                             newword = random.choice(names)
                             break
-                    #если в словаре не нашлось такого географического названия, то мы его пропускаем
+                    # если в словаре не нашлось такого географического названия, то мы его пропускаем
                     if newword == token:
                         continue
                     # загружаем новое слово в pymorphy, чтобы получить нужную форму

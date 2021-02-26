@@ -79,7 +79,7 @@ class AugCloseAbbr(BaseAug):
         with open(os.path.join(FILES_PATH, 'normalized_abbrs.json'), 'r', encoding='utf-8') as norm_abbrs:
             self._normalized_abbrs = json.load(norm_abbrs)
         self._morph = pymorphy2.MorphAnalyzer()
-        self._tokenizer = pyonmttok.Tokenizer("aggressive")
+        self._tokenizer = pyonmttok.Tokenizer('aggressive')
 
     def apply(self, text: str) -> str:
         tokens = self._tokenizer.tokenize(text)[0]

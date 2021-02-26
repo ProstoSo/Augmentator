@@ -1,6 +1,6 @@
 import unittest
 
-from augs.aug_change_number import AugChangeNumber, AugChangeNumber2
+from augs.aug_change_number import AugChangeNumber, AugChangeNumberWithRange
 
 
 class TestAugChangeNumber(unittest.TestCase):
@@ -21,10 +21,10 @@ class TestAugChangeNumber(unittest.TestCase):
         self.assertEqual(augmented_true_text, text)
 
 
-class TestAugChangeNumber2(unittest.TestCase):
+class TestAugChangeNumberWithRange(unittest.TestCase):
 
     def setUp(self):
-        self._augmentation = AugChangeNumber2()
+        self._augmentation = AugChangeNumberWithRange()
 
     def test_augmentation(self):
         text = 'У Пети было 15 яблок.'
