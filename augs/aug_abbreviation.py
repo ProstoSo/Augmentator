@@ -54,7 +54,7 @@ class AugOpenAbbr(BaseAug):
                         newwlst.append(newword)
                 newword1 = " ".join(newwlst)
                 tokens[oldword_index] = newword1
-        newtext = " ".join(text)
+        newtext = " ".join(tokens)
         newtext = remove_whitespace(newtext)
         return newtext
 
