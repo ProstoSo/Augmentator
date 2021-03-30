@@ -36,7 +36,7 @@ class AugChangeNumber(BaseAug):
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                if 'LATN' not in word_0.tag:
+                if 'NOUN' in word_0.tag:
                     if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
                         w = word_0.inflect({'plur'})
                         w = w.inflect({'gent'})
@@ -53,7 +53,7 @@ class AugChangeNumber(BaseAug):
                             w = w.inflect({'gent'})
                             new_form = w.word
                 else:
-                    new_form = word_0.word
+                    new_form = word
                 if is_title:
                     new_form = new_form.capitalize()
                 tokens[i] = str(n)+s

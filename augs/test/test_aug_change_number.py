@@ -13,9 +13,15 @@ class TestAugChangeNumber(unittest.TestCase):
         augmented_text = self._augmentation.apply(text)
         self.assertNotEqual(augmented_text, text)
 
+    def test_augmentation_0(self):
+        text = 'У Пети было три шоколадки, но 2 растаяло.'
+        augmented_text = self._augmentation.apply(text)
+        print (augmented_text)
+        self.assertNotEqual(augmented_text, text)
+
     # если число связано с иностранным словом, то оно всё равно должно быть изменено.
     def test_augmentation_1(self):
-        text = 'Он установил Windows 7.'
+        text = 'Сайт выставки Gamescom рассказал о Half-Life 3'
         augmented_text = self._augmentation.apply(text)
         self.assertNotEqual(augmented_text, text)
 
