@@ -32,30 +32,28 @@ class AugChangeNumber(BaseAug):
                     word_id = i + 1
                 word, s2 = remove_punctuation_with_sign(word)
                 is_title = True if word.istitle() else False
-                print(word)
                 # процесс согласования
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                print((word_0))
                 if 'NOUN' in word_0.tag:
                     if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
                         if 'Sgtm' not in word_0.tag:
-                            w = word_0.inflect({'plur'})
-                        w = w.inflect({'gent'})
-                        new_form = w.word
+                            word_0 = word_0.inflect({'plur'})
+                        word_0 = word_0.inflect({'gent'})
+                        new_form = word_0.word
                     else:
                         if n % 10 == 1:
-                            w = word_0.inflect({'nomn'})
-                            new_form = w.word
+                            word_0 = word_0.inflect({'nomn'})
+                            new_form = word_0.word
                         elif n % 10 in {2, 3, 4}:
-                            w = word_0.inflect({'gent'})
-                            new_form = w.word
+                            word_0 = word_0.inflect({'gent'})
+                            new_form = word_0.word
                         else:
                             if 'Sgtm' not in word_0.tag:
-                                w = word_0.inflect({'plur'})
-                            w = w.inflect({'gent'})
-                            new_form = w.word
+                                word_0 = word_0.inflect({'plur'})
+                            word_0 = word_0.inflect({'gent'})
+                            new_form = word_0.word
                 else:
                     new_form = word
                 if is_title:
