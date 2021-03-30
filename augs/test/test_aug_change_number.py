@@ -13,6 +13,12 @@ class TestAugChangeNumber(unittest.TestCase):
         augmented_text = self._augmentation.apply(text)
         self.assertNotEqual(augmented_text, text)
 
+    # если число связано с иностранным словом, то оно всё равно должно быть изменено.
+    def test_augmentation_1(self):
+        text = 'Он установил Windows 7.'
+        augmented_text = self._augmentation.apply(text)
+        self.assertNotEqual(augmented_text, text)
+
     # если в тексте нет числа, текст должен остаться неизменным
     def test_augmentation_2(self):
         text = 'У Пети было много яблок.'
@@ -37,3 +43,4 @@ class TestAugChangeNumberWithRange(unittest.TestCase):
         augmented_true_text = 'У Пети было много яблок.'
         text = self._augmentation.apply(text)
         self.assertEqual(augmented_true_text, text)
+

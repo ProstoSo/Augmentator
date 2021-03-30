@@ -31,26 +31,32 @@ class AugChangeNumber(BaseAug):
                     word = tokens[i + 1]
                     word_id = i + 1
                 word, s2 = remove_punctuation_with_sign(word)
+                is_title = True if word.istitle() else False
                 # процесс согласования
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
-                    w = word_0.inflect({'plur'})
-                    w = w.inflect({'gent'})
-                    new_form = w.word
-                else:
-                    if n % 10 == 1:
-                        w = word_0.inflect({'nomn'})
-                        new_form = w.word
-                    elif n % 10 in {2, 3, 4}:
-                        w = word_0.inflect({'gent'})
-                        new_form = w.word
-                    else:
+                if 'LATN' not in word_0.tag:
+                    if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
                         w = word_0.inflect({'plur'})
                         w = w.inflect({'gent'})
                         new_form = w.word
-                tokens[i] = str(n)
+                    else:
+                        if n % 10 == 1:
+                            w = word_0.inflect({'nomn'})
+                            new_form = w.word
+                        elif n % 10 in {2, 3, 4}:
+                            w = word_0.inflect({'gent'})
+                            new_form = w.word
+                        else:
+                            w = word_0.inflect({'plur'})
+                            w = w.inflect({'gent'})
+                            new_form = w.word
+                else:
+                    new_form = word_0.word
+                if is_title:
+                    new_form = new_form.capitalize()
+                tokens[i] = str(n)+s
                 tokens[word_id] = new_form + s2
         text = ' '.join(tokens)
         return text
@@ -76,26 +82,32 @@ class AugChangeNumberWithRange(BaseAug):
                     word = tokens[i + 1]
                     word_id = i + 1
                 word, s2 = remove_punctuation_with_sign(word)
+                is_title = True if word.istitle() else False
                 # процесс согласования
                 word_0 = self._morph.parse(word)[0]
                 ww = word_0.normal_form
                 word_0 = self._morph.parse(ww)[0]
-                if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
-                    w = word_0.inflect({'plur'})
-                    w = w.inflect({'gent'})
-                    new_form = w.word
-                else:
-                    if n % 10 == 1:
-                        w = word_0.inflect({'nomn'})
-                        new_form = w.word
-                    elif n % 10 in {2, 3, 4}:
-                        w = word_0.inflect({'gent'})
-                        new_form = w.word
-                    else:
+                if 'LATN' not in word_0.tag:
+                    if str(n).endswith('11') or str(n).endswith('12') or str(n).endswith('13') or str(n).endswith('14'):
                         w = word_0.inflect({'plur'})
                         w = w.inflect({'gent'})
                         new_form = w.word
-                tokens[i] = str(n)
+                    else:
+                        if n % 10 == 1:
+                            w = word_0.inflect({'nomn'})
+                            new_form = w.word
+                        elif n % 10 in {2, 3, 4}:
+                            w = word_0.inflect({'gent'})
+                            new_form = w.word
+                        else:
+                            w = word_0.inflect({'plur'})
+                            w = w.inflect({'gent'})
+                            new_form = w.word
+                else:
+                    new_form = word_0.word
+                if is_title:
+                    new_form = new_form.capitalize()
+                tokens[i] = str(n) + s1
                 tokens[word_id] = new_form + s2
         text = ' '.join(tokens)
         return text
