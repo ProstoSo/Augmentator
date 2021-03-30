@@ -9,7 +9,7 @@ class TestAugChangeName(unittest.TestCase):
         self._augmentation = AugChangeName()
 
     def test_augmentation(self):
-        text = 'Это же Коля!'
+        text = 'Это же Женя!'
         augmented_text = self._augmentation.apply(text)
         self.assertNotEqual(augmented_text, text)
 
