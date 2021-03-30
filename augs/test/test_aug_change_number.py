@@ -14,7 +14,7 @@ class TestAugChangeNumber(unittest.TestCase):
         self.assertNotEqual(augmented_text, text)
 
     def test_augmentation_0(self):
-        text = 'У Пети было три шоколадки, но 2 растаяло.'
+        text = 'Выставка состоится 23 мая'
         augmented_text = self._augmentation.apply(text)
         print (augmented_text)
         self.assertNotEqual(augmented_text, text)
