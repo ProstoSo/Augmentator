@@ -38,6 +38,7 @@ class AugChangeName(BaseAug):
                 elif 'masc' in firstword.tag:
                     newname = random.choice(self._masc_names_lst)
                 newname2 = self._morph.parse(newname)[0]
+
                 # выбираем нужную форму слова и меняем первую букву слова на заглавную
                 newname3 = newname2.inflect({case}).word.capitalize() + s
                 tokens[i] = newname3

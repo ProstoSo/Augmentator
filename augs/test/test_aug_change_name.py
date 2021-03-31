@@ -11,14 +11,12 @@ class TestAugChangeName(unittest.TestCase):
     def test_augmentation(self):
         text = 'Маргарита Александровна умная женщина.'
         augmented_text = self._augmentation.apply(text)
-        print(augmented_text)
         self.assertNotEqual(augmented_text, text)
 
     # если в тексте есть иностранное имя, оно тоже должно быть изменено
     def test_augmentation_1(self):
-        text = 'Джон сел в машину.'
+        text = 'Эминем обогнал Леди Гагу по "лайкам"'
         augmented_text = self._augmentation.apply(text)
-        print(augmented_text)
         self.assertNotEqual(augmented_text, text)
 
     # если в тексте нет имени, текст должен остаться неизменным
