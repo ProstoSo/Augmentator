@@ -8,6 +8,13 @@ def remove_punctuation(word: str) -> str:
             word = word.replace(els, '')
     return word
 
+def remove_quote(word:str) -> Tuple[str,str]:
+    s = ''
+    for q in ['"',"'"]:
+        if word.startswith(q):
+            s = q
+            word = word.replace(q, "")
+    return word, s
 
 def remove_punctuation_with_sign(word: str) -> Tuple[str, str]:
     reg=re.compile('\W+')

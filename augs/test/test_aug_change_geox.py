@@ -9,7 +9,7 @@ class TestAugChangeGeox(unittest.TestCase):
         self._augmentation = AugChangeGeox()
 
     def test_augmentation(self):
-        text = 'Он живет в Новосибирске!!!'
+        text = 'Он живет в "Новосибирске"!!!'
         augmented_text = self._augmentation.apply(text)
         self.assertNotEqual(augmented_text, text)
 

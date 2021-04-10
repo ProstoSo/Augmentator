@@ -7,7 +7,7 @@ import pymorphy2
 
 from augs.base_aug import BaseAug
 from augs.paths import FILES_PATH
-from augs.utils import remove_whitespace, remove_punctuation_with_sign
+from augs.utils import remove_whitespace, remove_punctuation_with_sign, remove_quote
 
 
 class AugChangeGeox(BaseAug):
@@ -21,7 +21,9 @@ class AugChangeGeox(BaseAug):
     def apply(self, text: str) -> str:
         tokens = text.split(' ')
         for token in tokens:
+            s0 = ''
             s = ''
+            token,s0=remove_quote(token)
             # ищем слово с заглавной буквы
             if token.istitle():
                 token, s = remove_punctuation_with_sign(token)
@@ -44,7 +46,7 @@ class AugChangeGeox(BaseAug):
                     # загружаем новое слово в pymorphy, чтобы получить нужную форму
                     secondword = self._morph.parse(newword)[0]
                     # проверяем "совместимость" предлога
-                    previous_token_index = tokens.index(token + s)
+                    previous_token_index = tokens.index(s0+token+s0 + s)
                     if tokens[previous_token_index - 1].lower() in ['в', 'во']:
                         case = 'loct'
                         reg = re.compile("^[В|Ф][^аоуэиыяеёю]")
@@ -56,7 +58,7 @@ class AugChangeGeox(BaseAug):
                             prword = prword[:1]
                         tokens[previous_token_index - 1] = prword
                         # выбираем нужную форму слова и меняем первую букву слова на заглавную
-                    newword1 = secondword.inflect({case}).word.capitalize() + s
+                    newword1 = s0+ secondword.inflect({case}).word.capitalize() + s0 + s
                     # заменяем старое слово на новое
                     n = previous_token_index
                     tokens[n] = newword1
