@@ -1,3 +1,4 @@
+import re
 from typing import Tuple
 
 
@@ -9,11 +10,15 @@ def remove_punctuation(word: str) -> str:
 
 
 def remove_punctuation_with_sign(word: str) -> Tuple[str, str]:
+    reg=re.compile('\W+')
     s = ''
-    for symb in [',', '.', '!', '?']:
-        if symb in word:
-            word = word.replace(symb, "")
-            s = symb
+    result = re.search(reg, word)
+    if result is not None:
+        match = result.group()
+        res = word.endswith(match)
+        if res == True:
+            word = word.replace(match, "")
+            s = match
     return word, s
 
 
