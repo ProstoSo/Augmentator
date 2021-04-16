@@ -18,9 +18,12 @@ class AugChangeAdj(BaseAug):
         for i, token in enumerate(tokens):
             # ищем союз "и"
             if token == 'и':
+                try:
                 # запоминаем слово до союза и после
-                word1 = tokens[i - 1]
-                word2 = tokens[i + 1]
+                    word1 = tokens[i - 1]
+                    word2 = tokens[i + 1]
+                except IndexError:
+                    return text
                 word2, s = remove_punctuation_with_sign(word2)
                 firstword = self._morph.parse(word1)[0]
                 secondword = self._morph.parse(word2)[0]
