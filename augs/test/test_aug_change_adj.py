@@ -20,3 +20,16 @@ class TestAugChangeAdj(unittest.TestCase):
         augmented_true_text = 'У неё два карандаша и три маркера.'
         text = self._augmentation.apply(text)
         self.assertEqual(augmented_true_text, text)
+
+    # если в тексте есть союз И но до или после него нет слов, текст должен остаться неизменным
+    def test_augmentation_3(self):
+        text = 'У неё два карандаша и.'
+        augmented_true_text = 'У неё два карандаша и.'
+        text = self._augmentation.apply(text)
+        self.assertEqual(augmented_true_text, text)
+
+    def test_augmentation_4(self):
+        text = 'И у неё два карандаша.'
+        augmented_true_text = 'И у неё два карандаша.'
+        text = self._augmentation.apply(text)
+        self.assertEqual(augmented_true_text, text)
