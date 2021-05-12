@@ -24,7 +24,8 @@ class AugOpenAbbr(BaseAug):
         for token in tokens:
             # если есть знак препинания, то убираем его из слова с которым будем работать
             oldword = token
-            token = remove_punctuation(token)
+            s = ''
+            token, s = remove_punctuation_with_sign(token)
             # ищем аббревиатуру в тексте
             if token in self._abbs:
                 newwords = self._abbs[token]
@@ -53,7 +54,7 @@ class AugOpenAbbr(BaseAug):
                     else:
                         newwlst.append(newword)
                 newword1 = " ".join(newwlst)
-                tokens[oldword_index] = newword1
+                tokens[oldword_index] = newword1+s
         newtext = " ".join(tokens)
         newtext = remove_whitespace(newtext)
         return newtext
