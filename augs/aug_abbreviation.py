@@ -7,7 +7,7 @@ import pyonmttok
 
 from augs.base_aug import BaseAug
 from augs.paths import FILES_PATH
-from augs.utils import remove_punctuation, remove_whitespace
+from augs.utils import remove_punctuation, remove_punctuation_with_sign, remove_whitespace
 
 
 class AugOpenAbbr(BaseAug):
