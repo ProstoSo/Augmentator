@@ -21,7 +21,7 @@ def remove_quote(word:str) -> Tuple[str,str,str]:
     return word, s_starts, s_ends
 
 def remove_punctuation_with_sign(word: str) -> Tuple[str, str]:
-    reg=re.compile('[^\w\'"]\W+|\.')
+    reg=re.compile('[^\w\'"]\W*|\.')
     s = ''
     result = re.search(reg, word)
     if result is not None:

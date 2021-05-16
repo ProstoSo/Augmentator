@@ -9,8 +9,8 @@ class TestAugCloseAbbr(unittest.TestCase):
         self._augmentation = AugCloseAbbr()
 
     def test_augmentation(self):
-        text = 'Я учусь в Новосибирском государственном университете!'
-        augmented_true_text = 'Я учусь в НГУ!'
+        text = 'Я учусь в Новосибирском государственном университете, а не в Московском государственном университете!'
+        augmented_true_text = 'Я учусь в НГУ, а не в МГУ!'
         text = self._augmentation.apply(text)
         self.assertEqual(augmented_true_text, text)
 
@@ -49,7 +49,7 @@ class TestAugOpenAbbr(unittest.TestCase):
 
     # если в тексте две аббревиатуры, они обе дложны быть расшифрованы
     def test_augmentation_4(self):
-        text = 'Я хотел бы учиться в МГУ или в НГУ!'
-        augmented_true_text = 'Я хотел бы учиться в Московском государственном университете или в Новосибирском государственном университете!'
+        text = 'Я хотел бы учиться в МГУ или НГУ!'
+        augmented_true_text = 'Я хотел бы учиться в Московском государственном университете или Новосибирском государственном университете!'
         text = self._augmentation.apply(text)
         self.assertEqual(augmented_true_text, text)

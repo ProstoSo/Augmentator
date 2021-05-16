@@ -21,6 +21,7 @@ class AugOpenAbbr(BaseAug):
 
     def apply(self, text: str) -> str:
         tokens = self._tokenizer.tokenize(text)[0]
+        tokens=text.split(" ")
         for token in tokens:
             # если есть знак препинания, то убираем его из слова с которым будем работать
             oldword = token
@@ -115,8 +116,10 @@ class AugCloseAbbr(BaseAug):
                         # добавляем слова из расшифровки в отдельный список
                         if checkword == els.lower():
                             l2.append(words)
+                            break
                 # объединяем список, чтобы получить шаблон для замены
                 r = ' '.join(l2)
+                print(r)
                 # заменяем расшифровку на аббревиатуру
                 text = text.replace(r, newword)
         return text
