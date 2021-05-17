@@ -119,7 +119,6 @@ class AugCloseAbbr(BaseAug):
                             break
                 # объединяем список, чтобы получить шаблон для замены
                 r = ' '.join(l2)
-                print(r)
                 # заменяем расшифровку на аббревиатуру
                 text = text.replace(r, newword)
         return text
